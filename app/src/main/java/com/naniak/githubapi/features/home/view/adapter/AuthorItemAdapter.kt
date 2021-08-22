@@ -1,21 +1,26 @@
 package com.naniak.githubapi.features.home.view.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.naniak.githubapi.databinding.ItemHomeBinding
 import com.naniak.githubapi.datamodel.DataAuthor
 
 class AuthorItemAdapter(
     val listAuthor:List<DataAuthor>,
-     private val onClickListener: (binding: ItemHomeBinding) -> Unit):
+    private val activity: Activity,
+    private val onClickListener: (binding: ItemHomeBinding) -> Unit
+):
     RecyclerView.Adapter<AuthorItemAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ItemHomeBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind ( dataAuthor: DataAuthor, onClickListener: (binding: ItemHomeBinding) -> Unit){
+        fun bind ( dataAuthor: DataAuthor, onClickListener: (binding: ItemHomeBinding) -> Unit,activity: Activity){
             binding.authorName.text = dataAuthor.authorName
             binding.repoName.text = dataAuthor.repositoryName
-            binding.photoAuthor.setImageResource(dataAuthor.image.toInt())
+            Glide.with(activity).load(dataAuthor.image).centerCrop()
+                .into(binding.photoAuthor)
             binding.numberFork.text = dataAuthor.forksNumbers.toString()
             binding.numberStar.text = dataAuthor.starsNumbers.toString()
             binding.card.setOnClickListener { onClickListener(binding) }
@@ -28,7 +33,7 @@ class AuthorItemAdapter(
 
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(listAuthor[position], onClickListener)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(listAuthor[position], onClickListener,activity)
 
     override fun getItemCount() = listAuthor.size
 }

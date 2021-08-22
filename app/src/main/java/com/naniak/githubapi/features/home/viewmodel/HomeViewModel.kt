@@ -1,6 +1,7 @@
 package com.naniak.githubapi.features.home.viewmodel
 
 import BaseViewModel
+import ResponseApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,9 +13,9 @@ import kotlinx.coroutines.launch
 class HomeViewModel():BaseViewModel() {
     private val homeUseCase = HomeUseCase()
 
-    private val _onSuccessRepositoryGithub: MutableLiveData<List<GitResponseModel>> =
+    private val _onSuccessRepositoryGithub: MutableLiveData<GitResponseModel> =
         MutableLiveData()
-    val onSuccessRepositoryGithub: LiveData<List<GitResponseModel>>
+    val onSuccessRepositoryGithub: LiveData<GitResponseModel>
         get() = _onSuccessRepositoryGithub
 
     private val _onErrorRepositoryGithub: MutableLiveData<Int> =
@@ -24,13 +25,9 @@ class HomeViewModel():BaseViewModel() {
 
     fun getRepositoryGithub() {
         viewModelScope.launch {
-           this@HomeViewModel.callApi(
-                suspend { homeUseCase.getRepositoryGithub() },
-                onSuccess = {
-                    _onSuccessRepositoryGithub.postValue(
-                        it as List<GitResponseModel>
-                    )
-                }
+            this@HomeViewModel.callApi(
+                call = { homeUseCase.getRepositoryGithub()},
+                onSuccess = { _onSuccessRepositoryGithub.postValue(it as GitResponseModel) }
             )
         }
     }
