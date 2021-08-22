@@ -1,6 +1,6 @@
 package com.naniak.githubapi.datamodel
 
-class DataAuthor(
+data class DataAuthor(
     val authorName: String,
     val repositoryName: String,
     val image: String,
