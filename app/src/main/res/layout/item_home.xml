@@ -14,14 +14,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/photoAuthorContainer"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:cardCornerRadius="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/black"
@@ -42,9 +42,9 @@
                 tools:src="@drawable/logo_git" />
 
         </com.google.android.material.card.MaterialCardView>
-        
+
         <TextView
-            android:id="@+id/authorName"
+            android:id="@+id/repoName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -58,11 +58,11 @@
             tools:text="JetBrains/kotlin" />
 
         <TextView
-            android:id="@+id/repositoryName"
+            android:id="@+id/authorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/authorName"
-            app:layout_constraintTop_toBottomOf="@id/authorName"
+            app:layout_constraintStart_toStartOf="@id/repoName"
+            app:layout_constraintTop_toBottomOf="@id/repoName"
             tools:text="kotlin" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
