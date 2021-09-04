@@ -5,9 +5,16 @@ import ResponseApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.naniak.githubapi.datamodel.GitResponseModel
 import com.naniak.githubapi.datamodel.Item
 import com.naniak.githubapi.features.home.model.HomeUseCase
+import com.naniak.githubapi.features.home.paging.GithubPagingSource
+import com.naniak.githubapi.features.home.repository.HomeRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class HomeViewModel():BaseViewModel() {
@@ -23,12 +30,24 @@ class HomeViewModel():BaseViewModel() {
     val onErrorRepositoryGithub: LiveData<Int>
         get() = _onErrorRepositoryGithub
 
-    fun getRepositoryGithub() {
+  /*  fun getRepositoryGithub() {
         viewModelScope.launch {
             this@HomeViewModel.callApi(
                 call = { homeUseCase.getRepositoryGithub()},
                 onSuccess = { _onSuccessRepositoryGithub.postValue(it as GitResponseModel) }
             )
         }
+    }*/
+
+    fun getRepositoryGithub(): Flow<PagingData<Item>>{
+        return Pager(
+            PagingConfig(
+                30,
+                enablePlaceholders = false
+            )
+        ){
+            GithubPagingSource(HomeRepository() )
+        }.flow.cachedIn(viewModelScope)
+
     }
 }

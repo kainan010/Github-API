@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.naniak.githubapi.R
@@ -17,6 +18,8 @@ import com.naniak.githubapi.databinding.FragmentHomeBinding
 import com.naniak.githubapi.datamodel.DataAuthor
 import com.naniak.githubapi.features.home.view.adapter.AuthorItemAdapter
 import com.naniak.githubapi.features.home.viewmodel.HomeViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -29,26 +32,46 @@ class HomeFragment : Fragment() {
     private  var binding: FragmentHomeBinding? = null
     private val viewModel : HomeViewModel by viewModel()
 
+    private val adapter = AuthorItemAdapter{
+        if (it.layoutInfo.isVisible) {
+            it.layoutInfo.apply {
+                visibility = View.GONE
+                isVisible = false
+            }
+        } else {
+            it.layoutInfo.apply {
+                visibility = View.VISIBLE
+                isVisible = true
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater,container,false)
+        binding?.run {
+            vgRepository.layoutManager= LinearLayoutManager(context)
+            vgRepository.adapter = adapter
+
+        }
         return binding?.root
+
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.command = MutableLiveData<Command>()
 
-        activity?.let {
-            viewModel.command = MutableLiveData<Command>()
-
-
-        }
        binding?.run {
 
-           viewModel.getRepositoryGithub()
-            setupObservables()
+           lifecycleScope.launch {
+               viewModel.getRepositoryGithub().collectLatest {
+                   adapter.submitData(it)
+               }
+           }
+
        }
 
     }
@@ -60,55 +83,7 @@ class HomeFragment : Fragment() {
 
         binding = null
     }
-    private fun setupObservables() {
-        viewModel.onSuccessRepositoryGithub.observe(viewLifecycleOwner, {
-            val authorList = mutableListOf<DataAuthor>()
-            it.items.forEach {
-                authorList.add(
-                    DataAuthor(
-                        authorName = it.owner.login,
-                        repositoryName =it.name ,
-                        image = it.owner.avatarUrl,
-                        forksNumbers = it.forks,
-                        starsNumbers = it.stargazersCount
-                    )
-                )
-            }
-          activity?.let {
-              val authorAdapter = AuthorItemAdapter(authorList,it){
-                  if (it.layoutInfo.isVisible) {
-                      it.layoutInfo.apply {
-                          visibility = View.GONE
-                          isVisible = false
-                      }
-                  } else {
-                      it.layoutInfo.apply {
-                          visibility = View.VISIBLE
-                          isVisible = true
-                      }
-                  }
-              }
-              binding?.let {
-                  with(it) {
-                      vgRepository.layoutManager = LinearLayoutManager(context)
-                      vgRepository.adapter = authorAdapter
-                  }
-              }
-          }
 
-
-
-
-
-        })
-
-
-        viewModel.onErrorRepositoryGithub.observe(viewLifecycleOwner, {
-            it
-        })
-
-
-    }
 
 
 

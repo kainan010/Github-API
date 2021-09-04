@@ -22,7 +22,7 @@ class HomeUseCase {
             else -> responseApi
         }
     }*/
-    suspend fun getRepositoryGithub() =
-        homeRepository.getRepositoryGithub()
+    /*suspend fun getRepositoryGithub() =
+        homeRepository.getRepositoryGithub()*/
 
 }

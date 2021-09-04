@@ -3,26 +3,27 @@ package com.naniak.githubapi.features.home.view.adapter
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.naniak.githubapi.databinding.ItemHomeBinding
 import com.naniak.githubapi.datamodel.DataAuthor
+import com.naniak.githubapi.datamodel.Item
+import com.naniak.githubapi.datamodel.Item.Companion.DIFF_CALBACK
 
 class AuthorItemAdapter(
-    val listAuthor:List<DataAuthor>,
-    private val activity: Activity,
     private val onClickListener: (binding: ItemHomeBinding) -> Unit
-):
-    RecyclerView.Adapter<AuthorItemAdapter.ViewHolder>() {
+): PagingDataAdapter<Item,AuthorItemAdapter.ViewHolder>(DIFF_CALBACK) {
 
     class ViewHolder(val binding: ItemHomeBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind ( dataAuthor: DataAuthor, onClickListener: (binding: ItemHomeBinding) -> Unit,activity: Activity){
-            binding.authorName.text = dataAuthor.authorName
-            binding.repoName.text = dataAuthor.repositoryName
-            Glide.with(activity).load(dataAuthor.image).centerCrop()
+        fun bind ( dataAuthor: Item?, onClickListener: (binding: ItemHomeBinding) -> Unit){
+            binding.authorName.text = dataAuthor?.owner?.login
+            binding.repoName.text = dataAuthor?.name
+            Glide.with(itemView.context).load(dataAuthor?.owner?.avatarUrl).centerCrop()
                 .into(binding.photoAuthor)
-            binding.numberFork.text = dataAuthor.forksNumbers.toString()
-            binding.numberStar.text = dataAuthor.starsNumbers.toString()
+            binding.numberFork.text = dataAuthor?.forks.toString()
+            binding.numberStar.text = dataAuthor?.stargazersCount.toString()
             binding.card.setOnClickListener { onClickListener(binding) }
         }
     }
@@ -33,7 +34,6 @@ class AuthorItemAdapter(
 
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(listAuthor[position], onClickListener,activity)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position), onClickListener)
 
-    override fun getItemCount() = listAuthor.size
 }

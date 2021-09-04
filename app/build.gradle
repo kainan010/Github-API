@@ -64,4 +64,9 @@ dependencies {
     implementation "io.insert-koin:koin-android-viewmodel:$koin_version"
 // Koin Android Experimental features
     implementation "io.insert-koin:koin-android-ext:$koin_version"
+
+
+    def paging_version = "3.0.1"
+
+    implementation("androidx.paging:paging-runtime:$paging_version")
 }

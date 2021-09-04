@@ -6,9 +6,9 @@ import com.naniak.githubapi.api.GitService
 
 class HomeRepository : BaseRepository()  {
 
-    suspend fun getRepositoryGithub(): ResponseApi {
+    suspend fun getRepositoryGithub(page : Int): ResponseApi {
         return safeApiCall {
-            GitService.gitApi.getRepositoryGithub()
+            GitService.gitApi.getRepositoryGithub(page)
         }
     }
 
