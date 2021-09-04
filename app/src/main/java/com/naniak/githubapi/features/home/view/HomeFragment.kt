@@ -17,6 +17,7 @@ import com.naniak.githubapi.databinding.FragmentHomeBinding
 import com.naniak.githubapi.datamodel.DataAuthor
 import com.naniak.githubapi.features.home.view.adapter.AuthorItemAdapter
 import com.naniak.githubapi.features.home.viewmodel.HomeViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class HomeFragment : Fragment() {
@@ -26,7 +27,7 @@ class HomeFragment : Fragment() {
     }
 
     private  var binding: FragmentHomeBinding? = null
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel : HomeViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +41,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.let {
-            viewModel = ViewModelProvider(it).get(HomeViewModel::class.java)
             viewModel.command = MutableLiveData<Command>()
 
 
