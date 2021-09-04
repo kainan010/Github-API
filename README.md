@@ -13,6 +13,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Coroutines](https://developer.android.com/kotlin/coroutines/)
 - [Retrofit](https://square.github.io/retrofit/)
 - [Glide](https://bumptech.github.io/glide/)
+- [Koin](https://insert-koin.io//)
+- [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-paged-data)
 
 
  <img style="border-radius: 50%;" src="https://media-exp1.licdn.com/dms/image/C4D03AQEOp9_F5mDJPg/profile-displayphoto-shrink_200_200/0/1603192433791?e=1611187200&v=beta&t=LWKJd9u-CXRXQjrVdTXmO2tOM_nRdEY4Y9S7B_P9B6A" width="100px;" alt=""/>
