@@ -41,10 +41,7 @@ class HomeViewModel():BaseViewModel() {
 
     fun getRepositoryGithub(): Flow<PagingData<Item>>{
         return Pager(
-            PagingConfig(
-                30,
-                enablePlaceholders = false
-            )
+            PagingConfig(30, enablePlaceholders = false)
         ){
             GithubPagingSource(HomeRepository() )
         }.flow.cachedIn(viewModelScope)
