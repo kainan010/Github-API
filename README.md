@@ -15,6 +15,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Glide](https://bumptech.github.io/glide/)
 - [Koin](https://insert-koin.io//)
 - [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-paged-data)
+- [Logging Interceptor - OkHttp](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor) 
 
 
  <img style="border-radius: 50%;" src="https://media-exp1.licdn.com/dms/image/C4D03AQEOp9_F5mDJPg/profile-displayphoto-shrink_200_200/0/1603192433791?e=1611187200&v=beta&t=LWKJd9u-CXRXQjrVdTXmO2tOM_nRdEY4Y9S7B_P9B6A" width="100px;" alt=""/>
